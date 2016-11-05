@@ -28,9 +28,7 @@ function get(env){
 <!doctype html>
 <title>Text Hosting Service</title>
 <meta name=viewport content='width=device-width,initial-scale=1'>
-<script src=${env.environmentvariables.moduleUrl} data-main=${
-    env.environmentvariables.filesRoot
-}/js/t.js async></script>
+<script src=${env.environmentvariables.moduleUrl} data-main=plugins/althea-t/main.js async></script>
 `)
         }
     }
