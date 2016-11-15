@@ -1,6 +1,6 @@
 module.styleByPath('plugins/althea-t/main.css')
-module.importByPath('lib/general.js',{mode:1}).then(repository=>{
-    module.repository=repository
+module.importByPath('lib/general.js',{mode:1}).then(general=>{
+    general(module)
     let view=createView()
     document.body.appendChild(view.div)
     view.textarea.focus()
