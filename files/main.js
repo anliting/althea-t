@@ -1,4 +1,6 @@
-module.styleByPath('plugins/althea-t/main.css')
+module.styleByPath('plugins/althea-t/main.css').then(main=>
+    document.head.appendChild(main)
+)
 module.importByPath('lib/general.js',{mode:1}).then(general=>{
     general(module)
     let view=createView()
