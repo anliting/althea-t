@@ -1,8 +1,8 @@
-let
-    url=                    require('url')
-module.exports=althea=>{
-    althea.addPagemodule('/t',pagemodule)
-}
+let url=require('url')
+module.exports=althea=>
+    althea.addPagemodule(env=>
+        /^\/t/.test(env.analyze.request.parsedUrl.pathname)
+    ,pagemodule)
 function pagemodule(env){
     if(!env.althea.allowOrigin(env.envVars,env.request.headers.origin))
         return 403
@@ -15,7 +15,7 @@ function pagemodule(env){
     }
 }
 function get(env){
-    let path=url.parse(env.request.url).pathname.split('/')
+    let path=env.analyze.request.parsedUrl.pathname.split('/')
     if(path.length<3){
         env.headers['content-type']='text/html;charset=utf-8'
         return{
