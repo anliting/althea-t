@@ -6,12 +6,12 @@
     let
         site=   module.repository.althea.site,
         dom=    await module.repository.althea.dom
-    let textarea=dom.textarea(async textarea=>{
+    let textarea=dom('textarea',async textarea=>{
         textarea.placeholder=await placeholder
     })
     document.head.appendChild(await main)
-    document.body.appendChild(dom.div(_=>{
-        let button=dom.button('Submit')
+    document.body.appendChild(dom('div',_=>{
+        let button=dom('button','Submit')
         button.onclick=async e=>{
             e.stopPropagation()
             button.disabled=true
