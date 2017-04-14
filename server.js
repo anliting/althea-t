@@ -1,8 +1,12 @@
-let url=require('url')
-module.exports=althea=>
+let
+    url=require('url'),
+    newText=require('./server/newText')
+module.exports=althea=>{
+    althea.addQueryFunction('newText',newText)
     althea.addPagemodule(env=>
         /^\/t($|\/)/.test(env.analyze.request.parsedUrl.pathname)
     ,pagemodule)
+}
 function pagemodule(env){
     if(!env.althea.allowOrigin(env.envVars,env.request.headers.origin))
         return 403
