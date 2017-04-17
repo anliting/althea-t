@@ -1,7 +1,7 @@
 let
     url=require('url'),
     newText=require('./server/newText')
-module.exports=althea=>{
+module.exports=function(althea){
     althea.addQueryFunction('newText',newText)
     althea.addPagemodule(env=>
         /^\/t($|\/)/.test(env.analyze.request.parsedUrl.pathname)
