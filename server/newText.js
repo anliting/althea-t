@@ -1,7 +1,7 @@
-module.exports=function(args,env){
+module.exports=(db,opt,env)=>{
     if(!(
-        typeof args.content=='string'
+        typeof opt.content=='string'
     ))
         return
-    return env.althea.database.newText(args.content)
+    return db.newText(opt.content)
 }
