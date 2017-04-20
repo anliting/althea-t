@@ -1,12 +1,14 @@
 let
-    url=require('url'),
-    newText=require('./server/newText'),
-    extendDatabase=require('./server/extendDatabase')
-module.exports=function(althea){
+    url=            require('url'),
+    newText=        require('./server/newText'),
+    updateDatabase= require('./server/updateDatabase'),
+    extendDatabase= require('./server/extendDatabase')
+module.exports=async function(althea){
     let db=extendDatabase(althea.database)
     althea.addQueryFunction('newText',(opt,env)=>
         newText(db,opt,env)
     )
+    await updateDatabase(althea)
     althea.addPagemodule(env=>
         /^\/t($|\/)/.test(env.analyze.request.parsedUrl.pathname)
     ,pagemodule)
