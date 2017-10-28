@@ -2,10 +2,13 @@
     let
         main=           module.style('main.css'),
         placeholder=    module.get('placeholder')
-    ;(await module.importByPath('lib/general.js',{mode:1}))(module)
+    ;(await module.moduleByPath('/lib/general.mjs'))()
     let
-        site=   module.repository.althea.site,
-        dom=    await module.repository.althea.dom
+        {
+            Site,
+            dom,
+        }=await module.moduleByPath('/lib/core.static.js'),
+        site=new Site
     let textarea=dom('textarea',async textarea=>{
         textarea.placeholder=await placeholder
     })
