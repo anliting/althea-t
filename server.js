@@ -31,12 +31,13 @@ function get(env){
         return{
             status:200,
             headers:env.headers,
-            content:minifyHtml(`
+            content:`
 <!doctype html>
 <title>Text Hosting Service</title>
 <meta name=viewport content='width=device-width,initial-scale=1'>
-<script src=${env.environmentvariables.moduleUrl} data-main=plugins/althea-t/main.js async></script>
-`)
+<body>
+${env.althea.loadModule('plugins/althea-t/main.js')}
+`
         }
     }
     let id
@@ -64,7 +65,4 @@ function get(env){
             content:res.content,
         }
     })
-}
-function minifyHtml(s){
-    return s.split('\n').map(s=>s.trim()).join('')
 }

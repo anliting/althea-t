@@ -1,31 +1,25 @@
-(async()=>{
-    let
-        main=           module.style('main.css'),
-        placeholder=    module.get('placeholder')
-    ;(await module.moduleByPath('/lib/general.mjs'))()
-    let
-        {
-            Site,
-            dom,
-        }=await module.moduleByPath('/lib/core.static.js'),
-        site=new Site
-    let textarea=dom('textarea',async textarea=>{
-        textarea.placeholder=await placeholder
-    })
-    document.head.appendChild(await main)
-    document.body.appendChild(dom('div',_=>{
-        let button=dom('button','Submit')
-        button.onclick=async e=>{
-            e.stopPropagation()
-            button.disabled=true
-            site=await site
-            let id=await site.send({
-                function:'newText',
-                content:textarea.value,
-            })
-            location=`t/${id}`
-        }
-        return[textarea,button]
-    }))
-    textarea.focus()
-})()
+import style from './style.js'
+import placeholder from './placeholder.js'
+import{
+    Site,
+    dom,
+    general,
+}from'/lib/core.static.js'
+let
+    site=new Site,
+    textarea
+general()
+dom.head(dom.style(style))
+dom.body(dom.div(
+    textarea=dom.textarea({placeholder}),
+    dom.button('Submit',{async onclick(e){
+        e.stopPropagation()
+        this.disabled=true
+        let id=await site.send({
+            function:'newText',
+            content:textarea.value,
+        })
+        location=`t/${id}`
+    }})
+))
+textarea.focus()
