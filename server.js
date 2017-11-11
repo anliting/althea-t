@@ -36,7 +36,7 @@ function get(env){
 <title>Text Hosting Service</title>
 <meta name=viewport content='width=device-width,initial-scale=1'>
 <body>
-${env.althea.loadModule('plugins/althea-t/main.js')}
+${env.althea.loadModule('plugins/t/main.js')}
 `
         }
     }
