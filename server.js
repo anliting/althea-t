@@ -48,14 +48,13 @@ ${env.althea.loadModule('plugins/t/main.js')}
     }
     if(!Number.isFinite(id))
         return 400
-    return new Promise((rs,rj)=>{
-        env.database.pool.query(`
-            select
-                content
-            from text
-            where ?
-        `,{id},(err,rows)=>err?rj(err):rs(rows[0]))
-    }).then(res=>{
+    return env.database.pool.query(`
+        select
+            content
+        from text
+        where ?
+    `,{id}).then(res=>{
+        res=res[0][0]
         if(res==undefined)
             return 404
         env.headers['content-type']='text/plain;charset=utf-8'
