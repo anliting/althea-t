@@ -10,6 +10,7 @@ let
     ),
     site=new Site
 general()
+button.disabled=false
 button.onclick=async e=>{
     e.stopPropagation()
     button.disabled=true
