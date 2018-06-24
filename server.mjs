@@ -1,18 +1,10 @@
-let
-    url=            require('url'),
-    newText=        require('./server/newText'),
-    updateDatabase= require('./server/updateDatabase'),
-    extendDatabase= require('./server/extendDatabase')
-module.exports=async function(althea){
-    let db=extendDatabase(althea.database)
-    althea.addQueryFunction('newText',(opt,env)=>
-        newText(db,opt,env)
-    )
-    await updateDatabase(althea)
-    althea.addPagemodule(env=>
-        /^\/t($|\/)/.test(env.analyze.request.parsedUrl.pathname)
-    ,pagemodule)
-}
+import url from             'url'
+import newText from         './server/newText'
+import updateDatabase from  './server/updateDatabase'
+import extendDatabase from  './server/extendDatabase'
+import dom from             './server/dom'
+import placeholder from     './server/placeholder.mjs'
+import style from           './server/style.mjs'
 function pagemodule(env){
     if(!env.althea.allowOrigin(env.envVars,env.request.headers.origin))
         return 403
@@ -25,6 +17,24 @@ function pagemodule(env){
     }
 }
 function get(env){
+    let html,mountData
+    {
+        let
+            $=dom.sugar,
+            textarea,
+            button,
+            div
+        div=$('div',{id:'main'},
+            textarea=$('textarea',{placeholder}),
+            button=$('button','Submit'),
+        )
+        html=div.outerHTML
+        mountData=dom.unmount(div,{
+            button,
+            div,
+            textarea
+        })
+    }
     let path=env.analyze.request.parsedUrl.pathname.split('/')
     if(path.length<3){
         env.headers['content-type']='text/html;charset=utf-8'
@@ -35,8 +45,11 @@ function get(env){
 <!doctype html>
 <title>Text Hosting Service</title>
 <meta name=viewport content='width=device-width,initial-scale=1'>
+<style>${style}</style>
 <body>
-${env.althea.loadModule('plugins/t/main.js')}
+${html}
+<script id=mountData type=a>${encodeURIComponent(mountData)}</script>
+${env.althea.loadModule('plugins/t/main.mjs')}
 `
         }
     }
@@ -64,4 +77,14 @@ ${env.althea.loadModule('plugins/t/main.js')}
             content:res.content,
         }
     })
+}
+export default async function(althea){
+    let db=extendDatabase(althea.database)
+    althea.addQueryFunction('newText',(opt,env)=>
+        newText(db,opt,env)
+    )
+    await updateDatabase(althea)
+    althea.addPagemodule(env=>
+        /^\/t($|\/)/.test(env.analyze.request.parsedUrl.pathname)
+    ,pagemodule)
 }
