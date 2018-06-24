@@ -33,7 +33,6 @@ async function get(env){
             html=div.outerHTML
             mountData=dom.unmount(div,{
                 button,
-                div,
                 textarea
             })
         }
