@@ -20,9 +20,11 @@ function Element(){
         _attribute
         _child
         _tagName
+        dataset
     */
     this._attribute={}
     this._child=[]
+    this.dataset={}
 }
 Element.prototype.appendChild=function(e){
     this._child.push(e)
@@ -46,7 +48,12 @@ Object.defineProperty(Element.prototype,'outerHTML',{get(){
         `<${this._tagName}>`
     :
         `<${this._tagName}${
-            Object.entries(this._attribute).map(([k,v])=>
+            [
+                ...Object.entries(this._attribute),
+                ...Object.entries(this.dataset).map(([k,v])=>
+                    [`data-${k}`,v]
+                ),
+            ].map(([k,v])=>
                 ` ${k}="${v.replace(/"/g,'&quot;')}"`
             ).join('')
         }>${

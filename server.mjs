@@ -1,7 +1,7 @@
 import newText from         './server/newText'
 import updateDatabase from  './server/updateDatabase'
 import extendDatabase from  './server/extendDatabase'
-import dom from             './server/dom'
+import dom from             './server/dom/src/dom.mjs'
 import placeholder from     './server/placeholder.mjs'
 import style from           './server/style.mjs'
 function pagemodule(env){
@@ -19,22 +19,18 @@ async function get(env){
     let path=env.analyze.request.parsedUrl.pathname.split('/')
     if(path.length<3){
         env.headers['content-type']='text/html;charset=utf-8'
-        let html,mountData
+        let html
         {
             let
                 $=dom.sugar,
-                textarea,
-                button,
+                m={},
                 div
             div=$('div',{id:'main'},
-                textarea=$('textarea',{placeholder}),
-                button=$('button',{disabled:''},'Submit'),
+                m.textarea=$('textarea',{placeholder}),
+                m.button=$('button',{disabled:''},'Submit'),
             )
+            div.dataset.mount=dom.unmount(div,m)
             html=div.outerHTML
-            mountData=dom.unmount(div,{
-                button,
-                textarea
-            })
         }
         return{
             status:200,
@@ -46,7 +42,6 @@ async function get(env){
 <style>${style}</style>
 <body>
 ${html}
-<script id=mountData type=a>${encodeURIComponent(mountData)}</script>
 ${env.althea.loadModule('plugins/t/main.mjs')}
 `
         }
