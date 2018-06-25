@@ -30,7 +30,7 @@ async function get(env){
 <style>${ui.style}</style>
 <body>
 ${adom.unmount(ui.node,ui.mount)}
-${env.althea.loadModule('plugins/t/main.mjs')}
+${env.althea.loadModule('plugins/t/main.static.mjs')}
 `
         }
     }
