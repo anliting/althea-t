@@ -2,13 +2,9 @@ import{
     Site,
     general,
 }from'/lib/core.static.js'
-import dom from'https://cdn.rawgit.com/anliting/dom/fc98e65ef90d9eeaf724da2339f3dff37a88d14c/src/dom.mjs'
+import adom from'https://cdn.rawgit.com/anliting/adom/eefb34574b6316a59987b25853f48d4bab8cabeb/src/adom.static.mjs'
 let
-    main=document.getElementById('main'),
-    {button,textarea}=dom.mount(
-        main,
-        decodeURIComponent(main.dataset.mount),
-    ),
+    {button,textarea}=adom.mount(document.getElementById('main')),
     site=new Site
 general()
 button.disabled=false
