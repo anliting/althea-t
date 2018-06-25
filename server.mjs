@@ -1,7 +1,7 @@
 import newText from         './server/newText'
 import updateDatabase from  './server/updateDatabase'
 import extendDatabase from  './server/extendDatabase'
-import dom from             './server/dom/src/dom.mjs'
+import adom from            './server/adom/src/adom.mjs'
 import placeholder from     './server/placeholder.mjs'
 import style from           './server/style.mjs'
 function pagemodule(env){
@@ -22,15 +22,14 @@ async function get(env){
         let html
         {
             let
-                $=dom.sugar,
+                $=adom.sugar,
                 m={},
                 div
             div=$('div',{id:'main'},
                 m.textarea=$('textarea',{placeholder}),
                 m.button=$('button',{disabled:''},'Submit'),
             )
-            div.dataset.mount=dom.unmount(div,m)
-            html=div.outerHTML
+            html=adom.unmount(div,m)
         }
         return{
             status:200,
