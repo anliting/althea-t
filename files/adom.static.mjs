@@ -136,18 +136,23 @@ function mount(e,doc){
 }
 function sugar(a){
     if(typeof a=='string')
-        a=document.createElement(a)
+        a=document.createElement(a);
+    let mode=0
     ;[...arguments].slice(1).map(b=>{
         if(typeof b=='function'){
             b(a);
+        }else if(typeof b=='number'){
+            mode=b;
         }else if(typeof b=='object'){
-            if(b instanceof Array)
-                a.appendChild(sugar(...b));
-            else if(b instanceof Element$1)
+            if(b instanceof Element$1)
                 a.appendChild(b);
-            else
-                for(let c of Object.entries(b))
-                    a.setAttribute(...c);
+            else{
+                if(mode==0)
+                    for(let c of Object.entries(b))
+                        a.setAttribute(...c);
+                else if(mode==1)
+                    Object.assign(a,b);
+            }
         }else if(typeof b=='string'){
             a.appendChild(document.createTextNode(b));
         }

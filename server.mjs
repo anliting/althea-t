@@ -1,9 +1,8 @@
 import newText from         './server/newText'
 import updateDatabase from  './server/updateDatabase'
 import extendDatabase from  './server/extendDatabase'
-import adom from            './server/adom/src/adom'
-import placeholder from     './server/placeholder'
-import style from           './server/style'
+import adom from            './files/adom.static'
+import uiPrototype from     './files/ui'
 function pagemodule(env){
     if(!env.althea.allowOrigin(env.envVars,env.request.headers.origin))
         return 403
@@ -19,18 +18,8 @@ async function get(env){
     let path=env.analyze.request.parsedUrl.pathname.split('/')
     if(path.length<3){
         env.headers['content-type']='text/html;charset=utf-8'
-        let html
-        {
-            let
-                $=adom.sugar,
-                m={},
-                div
-            div=$('div',
-                m.textarea=$('textarea',{placeholder}),
-                m.button=$('button',{disabled:''},'Submit'),
-            )
-            html=adom.unmount(div,m)
-        }
+        let ui=Object.create(uiPrototype)
+        ui.back()
         return{
             status:200,
             headers:env.headers,
@@ -38,9 +27,9 @@ async function get(env){
 <!doctype html>
 <title>Text Hosting Service</title>
 <meta name=viewport content='width=device-width,initial-scale=1'>
-<style>${style}</style>
+<style>${ui.style}</style>
 <body>
-${html}
+${adom.unmount(ui.node,ui.mount)}
 ${env.althea.loadModule('plugins/t/main.mjs')}
 `
         }
