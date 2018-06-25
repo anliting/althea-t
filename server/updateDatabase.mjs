@@ -1,5 +1,4 @@
-let
-    edges=              require('./updateDatabase/edges')
+import edges from './updateDatabase/edges'
 async function updateDatabase(althea){
     let ver=await getDbVer(althea)
     while(ver in edges)
@@ -18,4 +17,4 @@ async function setDbVer(althea,ver){
     data.databaseVersion=ver
     await althea.setData(data)
 }
-module.exports=updateDatabase
+export default updateDatabase

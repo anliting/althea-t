@@ -1,9 +1,9 @@
 import newText from         './server/newText'
 import updateDatabase from  './server/updateDatabase'
 import extendDatabase from  './server/extendDatabase'
-import adom from            './server/adom/src/adom.mjs'
-import placeholder from     './server/placeholder.mjs'
-import style from           './server/style.mjs'
+import adom from            './server/adom/src/adom'
+import placeholder from     './server/placeholder'
+import style from           './server/style'
 function pagemodule(env){
     if(!env.althea.allowOrigin(env.envVars,env.request.headers.origin))
         return 403
@@ -25,7 +25,7 @@ async function get(env){
                 $=adom.sugar,
                 m={},
                 div
-            div=$('div',{id:'main'},
+            div=$('div',
                 m.textarea=$('textarea',{placeholder}),
                 m.button=$('button',{disabled:''},'Submit'),
             )

@@ -1,4 +1,4 @@
-module.exports=(db,opt,env)=>{
+export default(db,opt,env)=>{
     if(!(
         typeof opt.content=='string'
     ))

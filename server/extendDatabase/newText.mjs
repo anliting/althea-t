@@ -1,4 +1,4 @@
-module.exports=function(content){
+export default function(content){
     return this.query0(`
         insert into text
         set ?
