@@ -214,13 +214,14 @@ var ui = {
         );
     },
     front(){
+        let ui=this;
         let{button,textarea}=this.mount;
         $(button,1,{
             disabled:false,
             async onclick(e){
                 e.stopPropagation();
                 this.disabled=true;
-                location=`t/${await this.newText(textarea.value)}`;
+                location=`t/${await ui.newText(textarea.value)}`;
             }
         });
         textarea.focus();
