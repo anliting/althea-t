@@ -1,5 +1,22 @@
 import { Site, general } from '/lib/core.static.js';
 
+var placeholder = `This is a text hosting service.
+
+Note that the uploaded text is not guaranteed to be kept forever, and it is possible to be deleted at any time, without any notification.
+
+Share the unused resources of my web server.
+
+Keep it simple, stupid.
+
+An-Li Ting 2016-10-07
+`
+
+var style = `textarea{
+    width:calc(100% - 6px);
+    height:320px;
+}
+`
+
 function Text(){
     /*
         _text
@@ -98,7 +115,7 @@ let{
     Document: Document$1,
     Element: Element$1,
     Text: Text$1,
-    document: document$1,
+    document,
 }=isBack?{
     Document:   Document,
     Element:    Element,
@@ -138,7 +155,7 @@ function mount(e,doc){
 }
 function sugar(a){
     if(typeof a=='string')
-        a=document$1.createElement(a);
+        a=document.createElement(a);
     let mode=0
     ;[...arguments].slice(1).map(b=>{
         if(typeof b=='function'){
@@ -146,7 +163,9 @@ function sugar(a){
         }else if(typeof b=='number'){
             mode=b;
         }else if(typeof b=='object'){
-            if(b instanceof Element$1)
+            if(b instanceof Array)
+                a.appendChild(sugar(...b));
+            else if(b instanceof Element$1)
                 a.appendChild(b);
             else{
                 if(mode==0)
@@ -156,20 +175,20 @@ function sugar(a){
                     Object.assign(a,b);
             }
         }else if(typeof b=='string'){
-            a.appendChild(document$1.createTextNode(b));
+            a.appendChild(document.createTextNode(b));
         }
     });
     return a
 }
 if(!isBack){
     sugar.body=function(){
-        return sugar(document$1.body,...arguments)
+        return sugar(document.body,...arguments)
     };
     sugar.head=function(){
-        return sugar(document$1.head,...arguments)
+        return sugar(document.head,...arguments)
     };
     sugar.html=function(){
-        return sugar(document$1.html,...arguments)
+        return sugar(document.html,...arguments)
     };
 }
 function unmount(e,doc){
@@ -180,53 +199,31 @@ var adom = {
     Document: Document$1,
     Element: Element$1,
     Text: Text$1,
-    document: document$1,
+    document,
     generateMountData,
     mount,
     sugar,
     unmount,
 };
 
-var placeholder = `This is a text hosting service.
-
-Note that the uploaded text is not guaranteed to be kept forever, and it is possible to be deleted at any time, without any notification.
-
-Share the unused resources of my web server.
-
-Keep it simple, stupid.
-
-An-Li Ting 2016-10-07
-`
-
-var style = `textarea{
-    width:calc(100% - 6px);
-    height:320px;
-}
-`
-
 let $=adom.sugar;
 var ui = {
-    back(){
-        this.mount={};
-        this.node=$('div',
-            this.mount.textarea=$('textarea',{placeholder}),
-            this.mount.button=$('button',{disabled:''},'Submit'),
-        );
-    },
-    front(){
-        let ui=this;
-        let{button,textarea}=this.mount;
-        $(button,1,{
-            disabled:false,
-            async onclick(e){
-                e.stopPropagation();
-                this.disabled=true;
-                location=`t/${await ui.newText(textarea.value)}`;
-            }
-        });
+    init(){
+        let ui=this,textarea;
+        $.head(['style',style]);
+        $.body(['div',
+            textarea=$('textarea',{placeholder}),
+            ['button',{disabled:''},'Submit',1,{
+                disabled:false,
+                async onclick(e){
+                    e.stopPropagation();
+                    this.disabled=true;
+                    location=`t/${await ui.newText(textarea.value)}`;
+                }
+            }],
+        ]);
         textarea.focus();
     },
-    style,
 }
 
 general();
@@ -235,5 +232,4 @@ ui.newText=content=>site.send({
     function:'newText',
     content,
 });
-ui.mount=adom.mount(document.body.firstElementChild);
-ui.front();
+ui.init();
