@@ -3,25 +3,20 @@ import style from           './ui/style.mjs'
 import adom from            './adom.static.mjs'
 let $=adom.sugar
 export default{
-    back(){
-        this.mount={}
-        this.node=$('div',
-            this.mount.textarea=$('textarea',{placeholder}),
-            this.mount.button=$('button',{disabled:''},'Submit'),
-        )
-    },
-    front(){
-        let ui=this
-        let{button,textarea}=this.mount
-        $(button,1,{
-            disabled:false,
-            async onclick(e){
-                e.stopPropagation()
-                this.disabled=true
-                location=`t/${await ui.newText(textarea.value)}`
-            }
-        })
+    init(){
+        let ui=this,textarea
+        $.head(['style',style])
+        $.body(['div',
+            textarea=$('textarea',{placeholder}),
+            ['button',{disabled:''},'Submit',1,{
+                disabled:false,
+                async onclick(e){
+                    e.stopPropagation()
+                    this.disabled=true
+                    location=`t/${await ui.newText(textarea.value)}`
+                }
+            }],
+        ])
         textarea.focus()
     },
-    style,
 }

@@ -144,7 +144,9 @@ function sugar(a){
         }else if(typeof b=='number'){
             mode=b;
         }else if(typeof b=='object'){
-            if(b instanceof Element$1)
+            if(b instanceof Array)
+                a.appendChild(sugar(...b));
+            else if(b instanceof Element$1)
                 a.appendChild(b);
             else{
                 if(mode==0)
