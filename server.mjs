@@ -24,7 +24,7 @@ async function get(env){
 <title>Text Hosting Service</title>
 <meta name=viewport content='width=device-width,initial-scale=1'>
 <body>
-${env.althea.loadModule('plugins/t/main.static.mjs')}
+${env.althea.loadModule('plugins/t/main.mjs')}
 `
         }
     }

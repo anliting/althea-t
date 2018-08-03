@@ -1,4 +1,5 @@
-import rollup from 'rollup'
+import rollup from      'rollup'
+import resolve from     'rollup-plugin-node-resolve'
 let
     skip=[
         '/lib/core.static.js'
@@ -6,6 +7,11 @@ let
 async function link(input,file){
     let bundle=await rollup.rollup({
         input,
+        plugins:[resolve({
+            customResolveOptions:{
+                moduleDirectory:'module'
+            },
+        })],
         external:s=>skip.includes(s),
     })
     await bundle.write({
@@ -14,4 +20,4 @@ async function link(input,file){
         paths:s=>skip.includes(s)&&s,
     })
 }
-link(`files/main.mjs`,`files/main.static.mjs`)
+link(`src/main.mjs`,`files/main.mjs`)
