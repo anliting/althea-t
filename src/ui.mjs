@@ -1,6 +1,6 @@
 import placeholder from     './ui/placeholder.mjs'
 import style from           './ui/style.mjs'
-import doe from             'doe'
+import doe from             'anliting-doe'
 export default{
     init(){
         let ui=this,textarea

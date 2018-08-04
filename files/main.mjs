@@ -9,13 +9,13 @@ Share the unused resources of my web server.
 Keep it simple, stupid.
 
 An-Li Ting 2016-10-07
-`;
+`
 
 var style = `textarea{
     width:calc(100% - 6px);
     height:320px;
 }
-`;
+`
 
 function doe(n){
     let p={
@@ -51,7 +51,7 @@ var doe$1 = new Proxy(doe,{
     get:(t,p)=>methods[p]||function(){
         return doe(document.createElement(p),...arguments)
     }
-});
+})
 
 var ui = {
     init(){
@@ -69,7 +69,7 @@ var ui = {
         ));
         textarea.focus();
     },
-};
+}
 
 general();
 let site=new Site;

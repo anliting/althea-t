@@ -9,7 +9,7 @@ async function link(input,file){
         input,
         plugins:[resolve({
             customResolveOptions:{
-                moduleDirectory:'module'
+                moduleDirectory:'node_modules'
             },
         })],
         external:s=>skip.includes(s),
@@ -20,4 +20,4 @@ async function link(input,file){
         paths:s=>skip.includes(s)&&s,
     })
 }
-link(`src/main.mjs`,`files/main.mjs`)
+link(`althea-t/src/main.mjs`,`althea-t/files/main.mjs`)
