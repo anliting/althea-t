@@ -1,4 +1,4 @@
-import edges from './updateDatabase/edges'
+import edges from './updateDatabase/edges.mjs'
 async function updateDatabase(althea){
     let ver=await getDbVer(althea)
     while(ver in edges)

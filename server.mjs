@@ -1,6 +1,6 @@
-import newText from         './server/newText'
-import updateDatabase from  './server/updateDatabase'
-import extendDatabase from  './server/extendDatabase'
+import newText from         './server/newText.mjs'
+import updateDatabase from  './server/updateDatabase.mjs'
+import extendDatabase from  './server/extendDatabase.mjs'
 function pagemodule(env){
     if(!env.althea.allowOrigin(env.envVars,env.request.headers.origin))
         return 403
