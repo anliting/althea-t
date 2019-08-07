@@ -51,13 +51,20 @@ ${env.althea.loadModule('plugins/t/main.mjs')}
         content:res.content,
     }
 }
-export default async function(althea){
-    let db=extendDatabase(althea.database)
-    althea.addQueryFunction('newText',(opt,env)=>
-        newText(db,opt,env)
-    )
-    await updateDatabase(althea)
-    althea.addPagemodule(env=>
-        /^\/t($|\/)/.test(env.analyze.request.parsedUrl.pathname)
-    ,pagemodule)
+function Plugin(althea){
+    ;(async()=>{
+        let db=extendDatabase(althea.database)
+        althea.addQueryFunction('newText',(opt,env)=>
+            newText(db,opt,env)
+        )
+        await updateDatabase(althea)
+        althea.addPagemodule(env=>
+            /^\/t($|\/)/.test(env.analyze.request.parsedUrl.pathname)
+        ,pagemodule)
+    })()
 }
+Plugin.prototype.end=function(){
+}
+Plugin.prototype.shutdownEnd=function(){
+}
+export default Plugin
