@@ -15,6 +15,12 @@ function pagemodule(env){
 async function get(env){
     let path=env.analyze.request.parsedUrl.pathname.split('/')
     if(path.length<3){
+        let ua=env.library.userAgent
+        if(!ua.leOr(
+            ua.version.esModuleBase,
+            ua.parse(env.request.headers['user-agent'])
+        ))
+            return ua.notSupport(ua.version.esModuleBase)
         env.headers['content-type']='text/html;charset=utf-8'
         return{
             status:200,
